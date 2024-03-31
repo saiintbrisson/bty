@@ -1,6 +1,7 @@
 #![doc = include_str!("../README.md")]
+#![cfg_attr(not(test), no_std)]
 
-use std::{fmt, hash, marker::PhantomData};
+use core::{fmt, hash, marker::PhantomData};
 
 #[cfg(feature = "serde")]
 mod serde;

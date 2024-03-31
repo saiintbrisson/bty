@@ -7,7 +7,7 @@ use sqlx_core::{
 
 use crate::Brand;
 
-type BoxError = Box<dyn std::error::Error + Send + Sync + 'static>;
+type BoxError = Box<dyn core::error::Error + Send + Sync + 'static>;
 
 impl<Db, Tag, Raw> Type<Db> for Brand<Tag, Raw>
 where
