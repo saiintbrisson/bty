@@ -30,7 +30,7 @@ bty::brand!(
 
 Instances of `UserId` may be constructed using one of the deserialization
 implementations, such as the `serde` one or the `sqlx` one. Manually
-instantiation, though unrecommended, can be done using the `unchecked_from_raw`
+instantiation, though unrecommended, can be done using the `unchecked_from_inner`
 associated function.
 
 See [this thread][tw-ts] from Matt Pocock on Twitter for a more exemplified and
@@ -77,12 +77,12 @@ The problem worsens as the number of uses for the id types grows. For example,
 what about `serde` serialization and deserialization?
 
 `bty` solves this problem by not having separate types for the branded types.
-Instead, a single `Brand` type is used. Defined as `Brand<Tag, Raw>`, it is
+Instead, a single `Brand` type is used. Defined as `Brand<Tag, Inner>`, it is
 generic over a `Tag` type, which discriminates values of different "brands"
-(i.e., domains) and the underlying type, represented by `Raw`.
+(i.e., domains) and the underlying type, represented by `Inner`.
 
-For most Rust's commonly used traits, if `Raw` implements it, then so does
-`Brand`. This means if `Raw` implements `Clone` and `Debug`, `Brand<_, Raw>`
+For most Rust's commonly used traits, if `Inner` implements it, then so does
+`Brand`. This means if `Inner` implements `Clone` and `Debug`, `Brand<_, Inner>`
 will also have them implemented.
 
 Following the previous example, one could use `bty` and have:

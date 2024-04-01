@@ -2,27 +2,27 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use crate::Brand;
 
-impl<B, Raw> Serialize for Brand<B, Raw>
+impl<B, Inner> Serialize for Brand<B, Inner>
 where
-    Raw: Serialize,
+    Inner: Serialize,
 {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
-        self.raw.serialize(serializer)
+        self.inner.serialize(serializer)
     }
 }
 
-impl<'de, B, Raw> Deserialize<'de> for Brand<B, Raw>
+impl<'de, B, Inner> Deserialize<'de> for Brand<B, Inner>
 where
-    Raw: for<'a> Deserialize<'a>,
+    Inner: for<'a> Deserialize<'a>,
 {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
         D: Deserializer<'de>,
     {
-        Raw::deserialize(deserializer).map(Self::unchecked_from_raw)
+        Inner::deserialize(deserializer).map(Self::unchecked_from_inner)
     }
 }
 
@@ -43,7 +43,7 @@ mod tests {
     #[test]
     fn test_serialize_deserialize() {
         let t = Test {
-            id: TestId::unchecked_from_raw(123),
+            id: TestId::unchecked_from_inner(123),
             other: "olá".into(),
         };
 
